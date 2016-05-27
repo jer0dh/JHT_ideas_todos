@@ -198,7 +198,7 @@ gulp.task('default', ['deploy-styles',  'images', 'deploy-other-scripts'], funct
     gulp.watch(themeName + '/js/src/vendor/**/*.js', ['vendorjs']);
     gulp.watch(themeName + '/**/*.php', ['deploy']);
     gulp.watch(themeName + '/js/src/app/**/*.js', ['deploy-scripts']);
-   // gulp.watch('src/scripts/tests/**/*.js', ['unitTest']);
+    gulp.watch('src/scripts/tests/**/*.js', ['unitTest']);
    // gulp.watch('src/scripts/*.js', ['other-scripts']);
     gulp.watch('src/images/**.*', ['images']);
    // gulp.watch('*.html', browserSync.reload);
@@ -225,7 +225,12 @@ gulp.task('cleanBuild', function(cb) {
     clean(themeName +'/js/build', cb);
 });
 
-gulp.task('buildTestFolder',['cleanBuild'], function() {
+gulp.task('unitTest-Assets', ['cleanBuild'],function(){
+   return gulp.src([themeName + '/js/src/tests/**/*', '!'+themeName+'/js/src/tests/*.js'])
+       .pipe(gulp.dest(themeName + '/js/build/tests/')); 
+});
+
+gulp.task('buildTestFolder',['unitTest-Assets'], function() {
     return gulp.src(themeName +'/js/src/**/*.js')
         .pipe(sourcemaps.init())
         .pipe(babel({ 'presets' : ['es2015']}))

@@ -32,7 +32,9 @@ class jhtIdeasTodos {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue'));
 
-
+		// Add Ajax endpoint
+		add_action( 'wp_ajax_read_ideas', array( $this, 'ajax_read_endpoint'));
+		add_action( 'wp_ajax_nopriv_read_ideas', array( $this, 'ajax_read_endpoint'));
 	}
 
 	public function enqueue() {
@@ -223,6 +225,29 @@ class jhtIdeasTodos {
 		return $output;
 
     }
+	
+	public function ajax_read_endpoint() {
+		$posts_per_page = 20;
+		$paged = 1;
+
+		$query = new WP_Query(array(
+			'post_type'         => 'jht_idea',
+			'paged'             =>  $paged,
+			'posts_per_page'    =>  $posts_per_page
+		));
+		$return = array();
+		$fields = array('post_title', 'ID');
+		$posts = $query->get_posts();
+		foreach($posts as $post) {
+			$newPost = array();
+			foreach($fields as $field) {
+				$newPost[$field] = $post->$field;
+			}
+			$return[] = $newPost;
+		}
+		
+		wp_send_json_success ( $return );
+	}
 
 
 	/**

@@ -1,6 +1,6 @@
 
 var $ = require('jquery')(require('jsdom').jsdom().defaultView);
-console.log($.toString());
+
 
 describe("The Model with no options passed: ", function() {
     var model = require('../app/models/ideasModel.js');
@@ -17,7 +17,7 @@ describe("The Model with no options passed: ", function() {
     //removeIf(production)
     
     it('ajax_url, actions, and _ajax_nonce will be at default values', function() {
-        console.log(model);
+
         var actions = ['create', 'read', 'update', 'delete' ];
         expect(model.getAjax_url()).toBe('localhost');
         actions.forEach(function(action){

@@ -57,3 +57,20 @@ module.exports = function($, opt) {
     
     return api;
 };
+
+/*
+Recommended interface by Mike - he said a lot of people create a Storage service that does most of this
+
+create! - creates new element and saves
+new - creates new element but no save
+save! - saves model
+update - updates model
+save_or_update -
+destroy!
+find
+find_by()
+valid?
+-validate
+
+Some sort of error object to store messages if validate returns false
+ */
